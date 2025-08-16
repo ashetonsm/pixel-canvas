@@ -1,11 +1,19 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Canvas from './canvas.vue';
+
+
+</script>
+
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+<div class="navbar">
+  <button class="btn">Reset</button>
+  <input type="color" class="color"></input>
+  <input type="number" class="size"></input>
+  </div>
+<div class="container">
+  <div class="grid">
+    <Canvas :size="36" />
+  </div>
+  </div>
 </template>
-
-<style scoped></style>
