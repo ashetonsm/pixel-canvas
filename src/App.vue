@@ -1,19 +1,22 @@
 <script setup lang="ts">
-import Canvas from './canvas.vue';
+import Canvas from './Canvas.vue';
 
-
+function resetPixels() {
+  const pixels = document.getElementsByClassName("pixel")
+  for (let i = 0; i < pixels.length; i++) {
+    (pixels[i] as HTMLElement).style.removeProperty("background-color")
+  }
+}
 </script>
-
 
 <template>
 <div class="navbar">
-  <button class="btn">Reset</button>
+  <button @click="resetPixels">Reset</button>
   <input type="color" class="color"></input>
-  <input type="number" class="size"></input>
   </div>
 <div class="container">
   <div class="grid">
-    <Canvas :size="36" />
+    <Canvas :size="36"></Canvas>
   </div>
   </div>
 </template>
