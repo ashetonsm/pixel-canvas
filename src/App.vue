@@ -1,11 +1,22 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Canvas from './Canvas.vue';
+
+function resetPixels() {
+  const pixels = document.getElementsByClassName("pixel")
+  for (let i = 0; i < pixels.length; i++) {
+    (pixels[i] as HTMLElement).style.removeProperty("background-color")
+  }
+}
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+<div class="navbar">
+  <button @click="resetPixels">Reset</button>
+  <input type="color" class="color"></input>
+  </div>
+<div class="container">
+  <div class="grid">
+    <Canvas :size="32"></Canvas>
+  </div>
+  </div>
 </template>
-
-<style scoped></style>
