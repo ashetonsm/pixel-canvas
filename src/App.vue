@@ -16,7 +16,7 @@ function resetPixels() {
   </div>
 <div class="container">
   <div class="grid">
-    <Canvas :size="64"></Canvas>
+    <Canvas :size="32"></Canvas>
   </div>
   </div>
 </template>
