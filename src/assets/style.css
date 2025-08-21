@@ -1,17 +1,9 @@
-* {
-    margin: 0;
-    padding: 0;
-}
-
-html, body {
-    height: 100%;
-    margin: 0; padding: 0;
-}
-
 body {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
+    margin: 0; padding: 0;
 }
 
 #app {
@@ -51,7 +43,7 @@ button, input {
 .grid {
     background-color: gray;
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
+    grid-template-columns: repeat(32, 1fr);
     grid-auto-rows: auto;
     grid-gap: 0.1em;
 }
@@ -59,11 +51,11 @@ button, input {
 .pixel {
     background-color: white;
     max-width: 108px;
-    width: 5vw;
-    min-width: 36px;
+    width: 1.5vw;
+    min-width: 8px;
     max-height: 108px;
-    height: 5vw;
-    min-height: 36px;
+    height: 1.5vw;
+    min-height: 8px;
     justify-content: center;
     align-items: center;
 }
