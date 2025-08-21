@@ -18,7 +18,12 @@ onMounted(() => {
 
     if (pixelRef.value) {
         pixelRef.value.addEventListener('click', function() {
-            pixelRef.value!.style.backgroundColor = 'black'
+            let initialColor = pixelRef.value!.style.backgroundColor
+            if (initialColor == 'black') {
+                pixelRef.value!.style.removeProperty("background-color")
+            } else {
+                pixelRef.value!.style.backgroundColor = 'black'
+            }
         })
         pixelRef.value.addEventListener('mouseover', function() {
             let initialColor = pixelRef.value!.style.backgroundColor
