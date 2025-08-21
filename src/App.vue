@@ -15,8 +15,6 @@ function resetPixels() {
   <input type="color" class="color"></input>
   </div>
 <div class="container">
-  <div class="grid">
     <Canvas :size="32"></Canvas>
-  </div>
   </div>
 </template>
