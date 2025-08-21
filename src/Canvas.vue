@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Pixel from './Pixel.vue';
 
 defineProps<{
   size: number
@@ -14,6 +15,6 @@ defineProps<{
         <h1>Canvas is blank.</h1>
     </template>
     <template v-else>
-        <div class="pixel" v-for="pixel in size" :key="'pixel' + pixel"></div>
+        <Pixel class="pixel" v-for="pixel in size" :key="'pixel' + pixel"></Pixel>
     </template>
 </template>
