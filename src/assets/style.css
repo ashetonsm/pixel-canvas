@@ -32,7 +32,7 @@ button, input {
     margin: 0 1em;
 }
 
-.container {
+.container, canvas {
     display: flex;
     width: 100%;
     align-content: center;
