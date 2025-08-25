@@ -40,6 +40,10 @@ button, input {
     justify-content: center;
 }
 
+canvas {
+    border: 2px solid black;
+}
+
 .grid {
     background-color: gray;
     display: grid;
