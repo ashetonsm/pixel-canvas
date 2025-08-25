@@ -39,12 +39,26 @@ function fillPixel(e: any) {
     draw(context!, e)
 }
 
-onMounted(() => {
-    canvasRef.value!.width = canvasRef.value!.offsetWidth
-    canvasRef.value!.height = canvasRef.value!.offsetWidth
-    const context = canvasRef.value!.getContext('2d')
-    canvasBoundingRect.value = canvasRef!.value?.getBoundingClientRect()
+function adjustCanvasSize() {
+    console.log('adjustCanvasSize')
+    if (canvasRef.value) {
+        // Make the width and height equal so it's a square
+        canvasRef.value!.width = canvasRef.value!.offsetWidth
+        canvasRef.value!.height = canvasRef.value!.offsetWidth
+    }
+}
 
+onMounted(() => {
+    // Adjust the canvas size when the window is resized so the pixels aren't placed incorrectly
+    window.addEventListener("resize", adjustCanvasSize)
+
+    if (canvasRef.value) {
+        // Make the width and height equal so it's a square
+        canvasRef.value.width = canvasRef.value!.offsetWidth
+        canvasRef.value.height = canvasRef.value!.offsetWidth
+        const context = canvasRef.value.getContext('2d')
+        canvasBoundingRect.value = canvasRef.value.getBoundingClientRect()
+    }
 })
 
 </script>
