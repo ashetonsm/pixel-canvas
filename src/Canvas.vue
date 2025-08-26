@@ -31,15 +31,20 @@ function fillPixel(e: any) {
 }
 
 function adjustCanvasSize() {
-    console.log('adjustCanvasSize')
     if (canvasRef.value) {
         // Make the width and height equal so it's a square
         canvasRef.value!.width = canvasRef.value!.offsetWidth
         canvasRef.value!.height = canvasRef.value!.offsetWidth
+
+        // Fill the canvas with white again
+        const context = canvasRef.value.getContext('2d')
+        context!.fillStyle = "#FFFFFF"
+        context!.fillRect(0, 0, canvasRef.value.width, canvasRef.value.height)
     }
 }
 
 onMounted(() => {
+    alert("Warning: If you resize the window, your work will be lost!")
     // Adjust the canvas size when the window is resized so the pixels aren't placed incorrectly
     window.addEventListener("resize", adjustCanvasSize)
 
@@ -48,6 +53,11 @@ onMounted(() => {
         canvasRef.value.width = canvasRef.value.offsetWidth
         canvasRef.value.height = canvasRef.value.offsetWidth
         canvasBoundingRect.value = canvasRef.value.getBoundingClientRect()
+
+        // Fill the canvas with white
+        const context = canvasRef.value.getContext('2d')
+        context!.fillStyle = "#FFFFFF"
+        context!.fillRect(0, 0, canvasRef.value.width, canvasRef.value.height)
     }
 })
 
