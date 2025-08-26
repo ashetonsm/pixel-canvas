@@ -10,7 +10,7 @@ const canvasBoundingRect = ref<any | null>(null)
 
 const draw = (ctx: CanvasRenderingContext2D, e: any) => {
     if (canvasRef.value) {
-        var pixelSize = (canvasRef.value.width / 36)
+        var pixelSize = (canvasRef.value.width / props.size)
         ctx.fillStyle = '#000000'
 
         const x = (e.pageX - canvasRef.value.offsetLeft)
@@ -43,9 +43,8 @@ onMounted(() => {
 
     if (canvasRef.value) {
         // Make the width and height equal so it's a square
-        canvasRef.value.width = canvasRef.value!.offsetWidth
-        canvasRef.value.height = canvasRef.value!.offsetWidth
-        const context = canvasRef.value.getContext('2d')
+        canvasRef.value.width = canvasRef.value.offsetWidth
+        canvasRef.value.height = canvasRef.value.offsetWidth
         canvasBoundingRect.value = canvasRef.value.getBoundingClientRect()
     }
 })
