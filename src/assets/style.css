@@ -15,6 +15,7 @@ body {
     padding: 1em;
     margin-bottom: 1em;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: gray;
@@ -27,9 +28,18 @@ button, input {
 }
 
 .color {
-    padding: 0 .25em;
-    width: 100px;
-    margin: 0 1em;
+    width: 1em;
+    border-radius: 100%;
+}
+
+.black {
+    color: white;
+    background-color: black;
+}
+
+.white {
+    color: black;
+    background-color: white;
 }
 
 .container {
