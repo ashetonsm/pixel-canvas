@@ -2,7 +2,8 @@
 import { onMounted, ref } from 'vue';
 
 const props = defineProps<{
-  size: number
+  size: number,
+  color: string
 }>()
 
 const canvasRef = ref<HTMLCanvasElement | null>(null)
@@ -11,10 +12,11 @@ const canvasBoundingRect = ref<any | null>(null)
 const draw = (ctx: CanvasRenderingContext2D, e: any) => {
     if (canvasRef.value) {
         var pixelSize = (canvasRef.value.width / props.size)
-        ctx.fillStyle = '#000000'
+        ctx.fillStyle = props.color
 
         const x = (e.pageX - canvasRef.value.offsetLeft)
         const y = (e.pageY - canvasRef.value.offsetTop)
+        
         ctx.fillRect(
             Math.floor(x / pixelSize) * pixelSize, 
             Math.floor(y / pixelSize) * pixelSize, 
