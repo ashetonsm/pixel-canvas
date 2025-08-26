@@ -9,29 +9,18 @@ const canvasRef = ref<HTMLCanvasElement | null>(null)
 const canvasBoundingRect = ref<any | null>(null)
 
 const draw = (ctx: CanvasRenderingContext2D, e: any) => {
-    ctx.fillStyle = '#000000'
-    console.log(ctx)
-    console.log(e)
-    const x = (e.pageX - canvasRef.value!.offsetLeft)
-    const y = (e.pageY - canvasRef.value!.offsetTop)
-    console.log(
-        'x: ' + x + '\n' + 
-        'e.pageX: ' + e.pageX + '\n' + 
-        'canvasRef.value!.offsetLeft: ' + canvasRef.value!.offsetLeft + '\n' +
-        'canvasRef.value!.width: ' + canvasRef.value!.width + '\n' +
-        'canvasRef.value!.offsetWidth: ' + canvasRef.value!.offsetWidth + '\n'
-    )
-    console.log(
-        'y: ' + y + '\n' + 
-        'e.pageY: ' + e.pageY + '\n' + 
-        'canvasRef.value!.offsetTop: ' + canvasRef.value!.offsetTop + '\n' + 
-        'canvasRef.value!.height: ' + canvasRef.value!.height + '\n' +
-        'canvasRef.value!.offsetHeight: ' + canvasRef.value!.offsetHeight + '\n' 
-    )
+    if (canvasRef.value) {
+        var pixelSize = (canvasRef.value.width / 36)
+        ctx.fillStyle = '#000000'
 
-
-    
-    ctx.fillRect(x, y, 10, 10)
+        const x = (e.pageX - canvasRef.value.offsetLeft)
+        const y = (e.pageY - canvasRef.value.offsetTop)
+        ctx.fillRect(
+            Math.floor(x / pixelSize) * pixelSize, 
+            Math.floor(y / pixelSize) * pixelSize, 
+            pixelSize, 
+            pixelSize)
+    }
 }
 
 function fillPixel(e: any) {
