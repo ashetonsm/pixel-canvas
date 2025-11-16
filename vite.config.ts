@@ -18,7 +18,13 @@ export default defineConfig({
   test: {
     coverage: {
       enabled: true,
-      reporter: ['html']
+      reporter: ['html'],
+      reportOnFailure: true,
+      include: [
+        './src/components',
+        './src/tests',
+        './src/tools',
+      ],
     }
-  },
+  }
 })
