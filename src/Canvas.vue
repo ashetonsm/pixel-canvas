@@ -1,68 +1,70 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref } from "vue";
 
 const props = defineProps<{
-  size: number,
-  color: string
-}>()
+  size: number;
+  color: string;
+}>();
 
-const canvasRef = ref<HTMLCanvasElement | null>(null)
-const canvasBoundingRect = ref<any | null>(null)
+const canvasRef = ref<HTMLCanvasElement | null>(null);
+const canvasBoundingRect = ref<any | null>(null);
+const click = ref<boolean>(false);
+var pixelSize = 0;
 
 const draw = (ctx: CanvasRenderingContext2D, e: any) => {
-    if (canvasRef.value) {
-        var pixelSize = (canvasRef.value.width / props.size)
-        ctx.fillStyle = props.color
+  if (canvasRef.value) {
+    pixelSize = canvasRef.value.width / props.size;
+    const x = e.pageX - canvasRef.value.offsetLeft;
+    const y = e.pageY - canvasRef.value.offsetTop;
+    ctx.fillStyle = props.color;
 
-        const x = (e.pageX - canvasRef.value.offsetLeft)
-        const y = (e.pageY - canvasRef.value.offsetTop)
-        
-        ctx.fillRect(
-            Math.floor(x / pixelSize) * pixelSize, 
-            Math.floor(y / pixelSize) * pixelSize, 
-            pixelSize, 
-            pixelSize)
+    ctx.fillRect(
+      Math.floor(x / pixelSize) * pixelSize,
+      Math.floor(y / pixelSize) * pixelSize,
+      pixelSize,
+      pixelSize
+    );
+  }
+};
+
+const preview = (ctx: CanvasRenderingContext2D, e: any) => {
+  if (canvasRef.value) {
+    if (click.value == true) {
+      draw(ctx, e);
     }
+  }
+};
+
+function mouseDown() {
+  return (click.value = true);
 }
 
-function fillPixel(e: any) {
-    const context = canvasRef.value!.getContext('2d')
-    draw(context!, e)
+function mouseUp() {
+  return (click.value = false);
 }
 
-function adjustCanvasSize() {
-    if (canvasRef.value) {
-        // Make the width and height equal so it's a square
-        canvasRef.value!.width = canvasRef.value!.offsetWidth
-        canvasRef.value!.height = canvasRef.value!.offsetWidth
-
-        // Fill the canvas with white again
-        const context = canvasRef.value.getContext('2d')
-        context!.fillStyle = "#FFFFFF"
-        context!.fillRect(0, 0, canvasRef.value.width, canvasRef.value.height)
-    }
+function previewPixel(e: any) {
+  preview(canvasRef.value!.getContext("2d")!, e);
 }
 
 onMounted(() => {
-    alert("Warning: If you resize the window, your work will be lost!")
-    // Adjust the canvas size when the window is resized so the pixels aren't placed incorrectly
-    window.addEventListener("resize", adjustCanvasSize)
+  window.addEventListener("mousedown", mouseDown);
+  window.addEventListener("mouseup", mouseUp);
 
-    if (canvasRef.value) {
-        // Make the width and height equal so it's a square
-        canvasRef.value.width = canvasRef.value.offsetWidth
-        canvasRef.value.height = canvasRef.value.offsetWidth
-        canvasBoundingRect.value = canvasRef.value.getBoundingClientRect()
+  if (canvasRef.value) {
+    // Make the width and height equal so it's a square
+    canvasRef.value.width = canvasRef.value.offsetWidth;
+    canvasRef.value.height = canvasRef.value.offsetWidth;
+    canvasBoundingRect.value = canvasRef.value.getBoundingClientRect();
 
-        // Fill the canvas with white
-        const context = canvasRef.value.getContext('2d')
-        context!.fillStyle = "#FFFFFF"
-        context!.fillRect(0, 0, canvasRef.value.width, canvasRef.value.height)
-    }
-})
-
+    // Fill the canvas with white
+    const context = canvasRef.value.getContext("2d");
+    context!.fillStyle = "rgb(255, 255, 255)";
+    context!.fillRect(0, 0, canvasRef.value.width, canvasRef.value.height);
+  }
+});
 </script>
 
 <template>
-    <canvas @click="fillPixel" ref="canvasRef"></canvas>
+  <canvas @mousemove="previewPixel" ref="canvasRef"></canvas>
 </template>
