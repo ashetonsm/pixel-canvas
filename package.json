@@ -12,8 +12,8 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
-    "test": "vitest --ui",
-    "coverage": "vitest --ui"
+    "test": "vitest --coverage",
+    "coverage": "vitest --coverage --ui"
   },
   "dependencies": {
     "vue": "^3.5.18"
