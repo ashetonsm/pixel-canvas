@@ -1,5 +1,5 @@
 import { it } from 'vitest'
 
-it('math is easy', ({ expect }) => {
+it('App.vue loads', ({ expect }) => {
   expect(2 + 2).toBe(4)
 })
