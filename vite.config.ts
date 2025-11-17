@@ -16,6 +16,7 @@ export default defineConfig({
     },
   },
   test: {
+    environment: 'jsdom',
     coverage: {
       enabled: true,
       reporter: ['html'],
@@ -24,7 +25,7 @@ export default defineConfig({
         './src/components',
         './src/tests',
         './src/tools',
-      ],
+      ]
     }
   }
 })
