@@ -5,10 +5,8 @@ export function saveDrawing(
     var path = ""
     // Query for the canvas
     const canvas = document.querySelector('canvas')!
-    const dataURL = canvas.toDataURL()
     canvas.toBlob(async (blob) => {
       path = URL.createObjectURL(blob!)
-      console.log("ObjectURL: ", path)
       const img = document.createElement("img");
       const imgOnlyLink = document.createElement("a");
       imgOnlyLink.href = path
