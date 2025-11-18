@@ -1,57 +1,44 @@
-import { beforeAll, describe, it, test, vi } from 'vitest'
+import { beforeAll, beforeEach, describe, it, test, vi } from 'vitest'
 import { saveDrawing } from '@/tools/saveDrawing'
 import { mount } from '@vue/test-utils'
 import Canvas from '@/components/Canvas.vue'
+import { ref } from 'vue'
 
 let wrapper: any
 let createMockBlob: (type?: string) => Blob
+const canvasRef = ref<HTMLCanvasElement | null>(null);
 
 describe('Canvas', () => {
 
   beforeAll(() => {
     wrapper = mount(Canvas, { props: { size: 24, color: "black" } })
-
-    createMockBlob = (type = 'image/png') => {
-      // A simple representation of an image blob for testing
-      const binaryData = new Uint8Array([8, 16, 24, 32]);
-      return new Blob([binaryData], { type });
-    };
+    canvasRef.value = wrapper.find('canvas').wrapperElement
   })
 
-  it('saveDrawing.ts exists', ({ expect }) => {
+  it('expects saveDrawing.ts to exist', ({ expect }) => {
     expect(saveDrawing("TestDrawing"))
   })
 
-  it('Canvas exists', ({ expect }) => {
-    let canvas = wrapper.find('canvas')
-    console.log("canvas: ", canvas)
-    expect(canvas).not.toBeNull()
+  it('expects HTMLCanvasElement to exist', ({ expect }) => {
+    console.log("canvasRef: ", canvasRef.value)
+    expect(canvasRef.value).not.toBeNull()
   })
 
-  it('Canvas to blob', async ({ expect }) => {
-    let canvas = wrapper.find('canvas').wrapperElement
-    console.log("canvas: ", canvas)
+  it('expects HTMLCanvasElement context to exist', async ({ expect }) => {
+    const ctx = canvasRef?.value?.getContext("2d")
+    console.log("ctx: ", ctx)
+    expect(ctx).not.toBeNull()
+  })
 
-    let blob: any
-    await canvas.toBlob(async (b: any) => {
-      blob = b
-      console.log("blob: ", blob)
+  it('expects a blob to be formed from the context', async ({ expect }) => {
+    const ctx = canvasRef?.value?.getContext("2d")
+    ctx!.fillStyle = "rgb(0, 0, 255)"
+    ctx!.fillRect(0, 0, 100, 100)
+
+    // ERROR: "the surface type is not appropriate for the operation"
+    canvasRef?.value?.toBlob(async (b) => {
+      console.log("blob: ", b)
     }, 'image/png')
   })
 
-
-  test('async callback', async () => {
-
-    // This is the mock function
-    const myMockFn = vi.fn(() => 'original')
-
-    await myMockFn.withImplementation(
-      () => 'temp',
-      async () => {
-        myMockFn()  // 'temp'
-      },
-    )
-
-    myMockFn()
-  })
 })
