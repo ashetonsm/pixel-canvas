@@ -58,13 +58,13 @@ describe('Canvas', () => {
   it('should successfully call handleSubmit', async ({ expect }) => {
     const displayObject = displayWrapper!.vm
 
-    // Create a spy on pixelPreview
+    // Create a spy on handleSubmit
     const spy = vi.spyOn(displayObject as any, 'handleSubmit')
 
     // Simulate calling the method
     displayObject.handleSubmit()
 
-    // Assert that previewPixel was called
+    // Assert that handleSubmit was called
     expect(spy).toHaveBeenCalled()
   })
 
