@@ -59,8 +59,10 @@ onMounted(() => {
 
     // Fill the canvas with white
     const context = canvasRef.value.getContext("2d");
-    context!.fillStyle = "rgb(255, 255, 255)";
-    context!.fillRect(0, 0, canvasRef.value.width, canvasRef.value.height);
+    if (context) {
+      context.fillStyle = "rgb(255, 255, 255)";
+      context.fillRect(0, 0, canvasRef.value.width, canvasRef.value.height);
+    }
   }
 });
 </script>

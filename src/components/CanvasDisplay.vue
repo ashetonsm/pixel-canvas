@@ -23,7 +23,6 @@ function resetCanvas() {
 }
 
 function handleColor(e: Event) {
-  console.log(e.target);
   if (e.target) {
     lastColor.value = color.value;
     color.value = (e.target as HTMLInputElement).value.toString();
@@ -33,7 +32,7 @@ function handleColor(e: Event) {
 async function handleSubmit() {
   drawingName = prompt(`Name your drawing:`);
   if (drawingName) {
-    saveDrawing(drawingName);
+    saveDrawing(drawingName, document.querySelector("canvas"));
   } else {
     alert(`You must name your drawing! Please try again.`);
   }

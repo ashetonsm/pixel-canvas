@@ -1,14 +1,11 @@
 export function saveDrawing(
-  name: string
+  name: string,
+  canvas: HTMLCanvasElement | null
 ) {
   try {
     var path = ""
-    // Query for the canvas
-    const canvas = document.querySelector('canvas')!
-    const dataURL = canvas.toDataURL()
-    canvas.toBlob(async (blob) => {
+    canvas?.toBlob(async (blob) => {
       path = URL.createObjectURL(blob!)
-      console.log("ObjectURL: ", path)
       const img = document.createElement("img");
       const imgOnlyLink = document.createElement("a");
       imgOnlyLink.href = path
@@ -23,7 +20,7 @@ export function saveDrawing(
       imgOnlyLink.appendChild(img)
 
       imageDiv.appendChild(imgOnlyLink)
-      
+
       const textOnlyLink = document.createElement("a");
       textOnlyLink.href = path
       textOnlyLink.innerText = name
@@ -31,12 +28,11 @@ export function saveDrawing(
 
       // link with only text
       imageDiv.appendChild(textOnlyLink)
-      
+
       // The gallery div that the images will be displayed in
       const gallery = document.getElementById("gallery")
-      gallery!.appendChild(imageDiv)
+      gallery?.appendChild(imageDiv)
     }, 'image/png')
-
 
   } catch (e: any) {
     console.log("Error: ", e)
