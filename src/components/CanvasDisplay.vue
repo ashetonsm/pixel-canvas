@@ -23,7 +23,6 @@ function resetCanvas() {
 }
 
 function handleColor(e: Event) {
-  console.log(e.target);
   if (e.target) {
     lastColor.value = color.value;
     color.value = (e.target as HTMLInputElement).value.toString();
