@@ -33,7 +33,7 @@ function handleColor(e: Event) {
 async function handleSubmit() {
   drawingName = prompt(`Name your drawing:`);
   if (drawingName) {
-    saveDrawing(drawingName);
+    saveDrawing(drawingName, document.querySelector("canvas"));
   } else {
     alert(`You must name your drawing! Please try again.`);
   }
