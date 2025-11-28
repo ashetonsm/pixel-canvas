@@ -1,6 +1,6 @@
 # pixel-canvas
 
-An app meant to create and export simple pixel art drawings on a 24 x 24 pixel canvas.
+Pixel Canvas is an app meant to create and export simple pixel art drawings on a 24 x 24 pixel canvas.
 
 
 This app was inspired by a tutorial by [0shuvo0](https://github.com/0shuvo0/pilex-art). 
