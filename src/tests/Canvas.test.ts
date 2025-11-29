@@ -1,5 +1,5 @@
 import { mount, VueWrapper } from '@vue/test-utils'
-import { beforeAll, describe, expect, it, vi } from 'vitest'
+import { beforeAll, describe, it, vi } from 'vitest'
 import Canvas from '@/components/Canvas.vue'
 import { ref } from 'vue';
 
@@ -11,7 +11,7 @@ let ctx: CanvasRenderingContext2D | null
 describe('Canvas', () => {
   beforeAll(() => {
     wrapper = mount(Canvas, { props: { size: 24, color: "black" } })
-    canvasRef.value = wrapper.find('canvas').element
+    canvasRef.value = wrapper.find('canvas').element 
     if (canvasRef.value) {
       ctx = canvasRef.value.getContext("2d")
       canvasRef.value.width = 100
@@ -34,18 +34,20 @@ describe('Canvas', () => {
     console.log(wrapper?.props())
   })
 
-  it('should return click.value true via mouseDown', async ({ expect }) => {
-    wrapper?.vm.mouseDown()
-    expect(wrapper?.vm.click).true
+  it('should return click.value true via mouseDown', async ({ expect }) => { 
+    const wvm = wrapper?.vm as any 
+    wvm.mouseDown()
+    expect(wvm.click).true
   })
 
   it('should return click.value false via mouseUp', async ({ expect }) => {
-    wrapper?.vm.mouseUp()
-    expect(wrapper!.vm.click).false
+    const wvm = wrapper?.vm as any 
+    wvm.mouseUp()
+    expect(wvm.click).false
   })
 
   it('should successfully call previewPixel', async ({ expect }) => {
-    const canvasObject = wrapper!.vm
+    const canvasObject = wrapper!.vm as any
 
     // Create a spy on pixelPreview
     const spy = vi.spyOn(canvasObject as any, 'previewPixel')
@@ -58,7 +60,7 @@ describe('Canvas', () => {
   })
 
   it('should successfully call draw', async ({ expect }) => {
-    const canvasObject = wrapper!.vm
+    const canvasObject = wrapper!.vm as any
 
     // Create a spy on draw
     const spy = vi.spyOn(canvasObject as any, 'draw')

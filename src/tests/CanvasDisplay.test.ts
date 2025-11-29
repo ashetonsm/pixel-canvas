@@ -1,6 +1,6 @@
 import CanvasDisplay from '@/components/CanvasDisplay.vue';
 import { mount, VueWrapper } from '@vue/test-utils';
-import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, it, vi } from 'vitest'
 import { ref } from 'vue';
 
 let displayWrapper: VueWrapper | null
@@ -41,7 +41,7 @@ describe('Canvas', () => {
   })
 
   it('should call resetCanvas and find a canvas', async ({ expect }) => {
-    const displayObject = displayWrapper!.vm
+    const displayObject = displayWrapper!.vm as any
 
     // Create a spy on resetCanvas
     const spy = vi.spyOn(displayObject as any, 'resetCanvas')
@@ -54,7 +54,7 @@ describe('Canvas', () => {
   })
 
   it('should successfully call handleColor', async ({ expect }) => {
-    const displayObject = displayWrapper!.vm
+    const displayObject = displayWrapper!.vm as any
 
     // Create a spy on handleColor
     const spy = vi.spyOn(displayObject as any, 'handleColor')
@@ -72,22 +72,24 @@ describe('Canvas', () => {
   it('should change the color to white onClick', async ({ expect }) => {
     const white = displayWrapper?.find('.white')
     await white!.trigger('click')
-    expect(displayWrapper!.vm.color).toBe("rgb(255, 255, 255)")
+    const dvm = displayWrapper!.vm as any
+    expect(dvm.color).toBe("rgb(255, 255, 255)")
   })
 
   it('should change the color to black onClick', async ({ expect }) => {
     const black = displayWrapper?.find('.black')
     await black!.trigger('click')
-    expect(displayWrapper!.vm.color).toBe("rgb(0, 0, 0)")
+    const dvm = displayWrapper!.vm as any
+    expect(dvm.color).toBe("rgb(0, 0, 0)")
   })
 
   it('should change the color to the lastColor onClick', async ({ expect }) => {
     // Black ("rgb(0, 0, 0)") by default
-    const last = displayWrapper?.find('.last')
+    const last = displayWrapper?.find('.last') as any
     await last!.trigger('click')
     console.log("last.element.value: ", last?.element.value)
-    // expect(displayWrapper!.vm.color)
-    expect(displayWrapper!.vm.color).toBe(last?.element.value)
+    const dvm = displayWrapper!.vm as any
+    expect(dvm.color).toBe(last?.element.value)
   })
 
   it('should call handleSubmit onClick', async ({ expect }) => {
@@ -102,7 +104,7 @@ describe('Canvas', () => {
   })
 
   it('should successfully call handleSubmit', async ({ expect }) => {
-    const displayObject = displayWrapper!.vm
+    const displayObject = displayWrapper!.vm as any
 
     // Create a spy on handleSubmit
     const spy = vi.spyOn(displayObject as any, 'handleSubmit')
