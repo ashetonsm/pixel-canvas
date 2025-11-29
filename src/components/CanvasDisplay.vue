@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import Canvas from "@/components/Canvas.vue";
-import { saveDrawing } from "../tools/saveDrawing";
+import { saveDrawing } from "@/tools/saveDrawing";
 
 const color = ref<string>("rgb(0, 0, 0)");
 let drawingName: string | null;

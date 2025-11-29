@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CanvasDisplay from './components/CanvasDisplay.vue';
+import CanvasDisplay from '@/components/CanvasDisplay.vue';
 </script>
 
 <template>
