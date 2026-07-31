@@ -9,42 +9,71 @@ const props = defineProps<{
 const canvasRef = ref<HTMLCanvasElement | null>(null);
 const canvasBoundingRect = ref<any | null>(null);
 const click = ref<boolean>(false);
+const touch = ref<boolean>(false);
 var pixelSize = 0;
 
 const draw = (ctx: CanvasRenderingContext2D, e: any) => {
   if (canvasRef.value) {
-    pixelSize = canvasRef.value.width / props.size;
-    const x = e.pageX - canvasRef.value.offsetLeft;
-    const y = e.pageY - canvasRef.value.offsetTop;
-    ctx.fillStyle = props.color;
+    if (touch.value) {
+      pixelSize = canvasRef.value.width / props.size;
+      const x = e.touches[0].pageX - canvasBoundingRect.value.left;
+      const y = e.touches[0].pageY - canvasBoundingRect.value.top;
+      ctx.fillStyle = props.color;
 
-    ctx.fillRect(
-      Math.floor(x / pixelSize) * pixelSize,
-      Math.floor(y / pixelSize) * pixelSize,
-      pixelSize,
-      pixelSize
-    );
-  }
-};
+      ctx.fillRect(
+        Math.floor(x / pixelSize) * pixelSize,
+        Math.floor(y / pixelSize) * pixelSize,
+        pixelSize,
+        pixelSize
+      );
+    } else {
+      pixelSize = canvasRef.value.width / props.size;
+      const x = e.pageX - canvasBoundingRect.value.left;
+      const y = e.pageY - canvasBoundingRect.value.top;
+      ctx.fillStyle = props.color;
 
-const preview = (ctx: CanvasRenderingContext2D, e: any) => {
-  if (canvasRef.value) {
-    if (click.value == true) {
-      draw(ctx, e);
+      ctx.fillRect(
+        Math.floor(x / pixelSize) * pixelSize,
+        Math.floor(y / pixelSize) * pixelSize,
+        pixelSize,
+        pixelSize
+      );
     }
   }
 };
 
-function mouseDown() {
-  return (click.value = true);
+const prepareDraw = (ctx: CanvasRenderingContext2D, e: any) => {
+  if (canvasRef.value) {
+    draw(ctx, e);
+  }
+};
+
+function mouseDown(e: any) {
+  if (e.target == canvasRef.value) {
+    if (e.type == "touchstart") {
+      touch.value = true;
+    } else {
+      click.value = true;
+    }
+    return contextLoader(e);
+  } else {
+    return;
+  }
 }
 
 function mouseUp() {
-  return (click.value = false);
+  return (click.value = false), (touch.value = false);
 }
 
-function previewPixel(e: any) {
-  preview(canvasRef.value!.getContext("2d")!, e);
+function contextLoader(e: any) {
+  if (click.value) {
+    prepareDraw(canvasRef.value!.getContext("2d")!, e);
+  }
+}
+
+function touchContextLoader(e: any) {
+  touch.value = true;
+  prepareDraw(canvasRef.value!.getContext("2d")!, e);
 }
 
 onMounted(() => {
@@ -68,5 +97,33 @@ onMounted(() => {
 </script>
 
 <template>
-  <canvas @mousemove="previewPixel" ref="canvasRef"></canvas>
+  <div class="grid-overlay"></div>
+  <canvas
+    @touchstart="mouseDown"
+    @touchend="mouseUp"
+    @mousemove="contextLoader"
+    @touchmove="touchContextLoader"
+    ref="canvasRef"
+  ></canvas>
 </template>
+
+<style lang="css" scoped>
+.grid-overlay {
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  /* canvas size / pixel size */
+  background-size: 12.4px 12.4px;   
+  background-image:
+    linear-gradient(to right, rgba(0, 255, 240, 0.25) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(0, 255, 240, 0.25) 1px, transparent 1px);
+  background-repeat: repeat;
+  left: 0; 
+  right: 0; 
+  margin-inline: auto; 
+}
+
+</style>

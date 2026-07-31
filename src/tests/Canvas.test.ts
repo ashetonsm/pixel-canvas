@@ -11,7 +11,7 @@ let ctx: CanvasRenderingContext2D | null
 describe('Canvas', () => {
   beforeAll(() => {
     wrapper = mount(Canvas, { props: { size: 24, color: "black" } })
-    canvasRef.value = wrapper.find('canvas').element 
+    canvasRef.value = wrapper.find('canvas').element
     if (canvasRef.value) {
       ctx = canvasRef.value.getContext("2d")
       canvasRef.value.width = 100
@@ -34,39 +34,74 @@ describe('Canvas', () => {
     console.log(wrapper?.props())
   })
 
-  it('should return click.value true via mouseDown', async ({ expect }) => { 
-    const wvm = wrapper?.vm as any 
-    wvm.mouseDown()
+  it('should return click.value, touch.value false via mouseUp', async ({ expect }) => {
+    const wvm = wrapper?.vm as any
+    wvm.mouseUp()
+    expect(wvm.click).false
+    expect(wvm.touch).false
+  })
+
+  it('should return touch.value true via mouseUp with touch event', async ({ expect }) => {
+    // Mock the touch event data
+    const touchEventOptions = {
+      touches: [{ clientX: 10, clientY: 10, pageX: 0, pageY: 0 }],
+      changedTouches: [{ clientX: 10, clientY: 10 }],
+    };
+
+    const wvm = wrapper?.vm as any
+    wvm.mouseDown(touchEventOptions)
     expect(wvm.click).true
   })
 
-  it('should return click.value false via mouseUp', async ({ expect }) => {
-    const wvm = wrapper?.vm as any 
-    wvm.mouseUp()
-    expect(wvm.click).false
-  })
-
-  it('should successfully call previewPixel', async ({ expect }) => {
+  it('should successfully call contextLoader', async ({ expect }) => {
     const canvasObject = wrapper!.vm as any
 
-    // Create a spy on pixelPreview
-    const spy = vi.spyOn(canvasObject as any, 'previewPixel')
+    // Create a spy on contextLoader
+    const spy = vi.spyOn(canvasObject as any, 'contextLoader')
 
     // Simulate calling the method
-    canvasObject.previewPixel(Event)
+    canvasObject.contextLoader(Event)
 
-    // Assert that previewPixel was called
+    // Assert that contextLoader was called
     expect(spy).toHaveBeenCalled()
+  })
+
+  it('should successfully call touchContextLoader', async ({ expect }) => {
+    const canvasObject = wrapper!.vm as any
+
+    // Mock the touch event data
+    const touchEventOptions = {
+      touches: [{ clientX: 10, clientY: 10, pageX: 0, pageY: 0 }],
+      changedTouches: [{ clientX: 10, clientY: 10 }],
+    };
+
+    // Create a spy on contextLoader
+    const spy = vi.spyOn(canvasObject as any, 'touchContextLoader')
+
+    // Simulate calling the method
+    canvasObject.touchContextLoader(touchEventOptions)
+
+    // Assert that touchContextLoader was called
+    expect(spy).toHaveBeenCalled()
+
+    // Assert that touch.value was changed to true
+    expect(canvasObject.touch).true
+
   })
 
   it('should successfully call draw', async ({ expect }) => {
     const canvasObject = wrapper!.vm as any
 
+    // Mock the touch event data
+    const touchEventOptions = {
+      touches: [{ clientX: 10, clientY: 10, pageX: 0, pageY: 0 }],
+      changedTouches: [{ clientX: 10, clientY: 10 }],
+    };    
     // Create a spy on draw
     const spy = vi.spyOn(canvasObject as any, 'draw')
 
     // Simulate calling the method
-    canvasObject.draw(ctx, Event)
+    canvasObject.draw(ctx, touchEventOptions)
 
     // Assert that draw was called
     expect(spy).toHaveBeenCalled()
