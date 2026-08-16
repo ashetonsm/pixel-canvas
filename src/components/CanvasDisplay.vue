@@ -79,7 +79,9 @@ async function handleSubmit() {
           Last
         </div>
       </div>
-      <div class="container-flex" id="gallery"></div>
+      <div class="container-flex" id="gallery" style="height: 150px;">
+        <div style="height: 100px;"></div>
+      </div>
     </div>
   </div>
 

@@ -16,8 +16,8 @@ const draw = (ctx: CanvasRenderingContext2D, e: any) => {
   if (canvasRef.value) {
     if (touch.value) {
       pixelSize = canvasRef.value.width / props.size;
-      const x = e.touches[0].pageX - canvasRef.value.offsetLeft;
-      const y = e.touches[0].pageY - canvasRef.value.offsetTop;
+      const x = e.touches[0].pageX - canvasBoundingRect.value.left;
+      const y = e.touches[0].pageY - canvasBoundingRect.value.top;
       ctx.fillStyle = props.color;
 
       ctx.fillRect(
@@ -28,8 +28,8 @@ const draw = (ctx: CanvasRenderingContext2D, e: any) => {
       );
     } else {
       pixelSize = canvasRef.value.width / props.size;
-      const x = e.pageX - canvasRef.value.offsetLeft;
-      const y = e.pageY - canvasRef.value.offsetTop;
+      const x = e.pageX - canvasBoundingRect.value.left;
+      const y = e.pageY - canvasBoundingRect.value.top;
       ctx.fillStyle = props.color;
 
       ctx.fillRect(
@@ -49,12 +49,16 @@ const prepareDraw = (ctx: CanvasRenderingContext2D, e: any) => {
 };
 
 function mouseDown(e: any) {
-  if (e.type == "touchstart") {
-    touch.value = true;
+  if (e.target == canvasRef.value) {
+    if (e.type == "touchstart") {
+      touch.value = true;
+    } else {
+      click.value = true;
+    }
+    return contextLoader(e);
   } else {
-    click.value = true;
+    return;
   }
-  return contextLoader(e);
 }
 
 function mouseUp() {
@@ -93,6 +97,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <div class="grid-overlay"></div>
   <canvas
     @touchstart="mouseDown"
     @touchend="mouseUp"
@@ -101,3 +106,24 @@ onMounted(() => {
     ref="canvasRef"
   ></canvas>
 </template>
+
+<style lang="css" scoped>
+.grid-overlay {
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  /* canvas size / pixel size */
+  background-size: 12.4px 12.4px;   
+  background-image:
+    linear-gradient(to right, rgba(0, 255, 240, 0.25) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(0, 255, 240, 0.25) 1px, transparent 1px);
+  background-repeat: repeat;
+  left: 0; 
+  right: 0; 
+  margin-inline: auto; 
+}
+
+</style>
